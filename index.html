@@ -1,259 +1,255 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>我的学习日志</title>
+
+    <!-- 现代字体 -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono&display=swap" rel="stylesheet" />
+
     <style>
-        /* 整体页面样式 */
-        body {
-            font-family: 'Poppins', 'Helvetica Neue', Arial, sans-serif;
-            color: #333;
+        * {
             margin: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            overflow: hidden;
-
-            /* 亮丽的流动的动态渐变背景 */
-            background: linear-gradient(135deg, #FF6B6B, #556270, #FF6B6B, #556270);
-            background-size: 400% 400%;
-            animation: gradientAnimation 25s ease infinite;
+            padding: 0;
+            box-sizing: border-box;
         }
 
-        /* 渐变动画 */
-        @keyframes gradientAnimation {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-        
-        /* 引入 Google Fonts - Poppins，一种现代字体 */
-        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
-
-        /* 主容器 */
-        .container {
-            width: 90%;
-            max-width: 800px;
-            background-color: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(15px);
-            padding: 3rem;
-            border-radius: 20px;
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: #f7f9fc;
+            color: #2c3e50;
+            height: 100vh;
             display: flex;
             flex-direction: column;
-            gap: 2rem;
-            animation: fadeIn 1s ease-in-out;
-        }
-        
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(30px); }
-            to { opacity: 1; transform: translateY(0); }
         }
 
-        /* 标题和信息区域 */
+        /* 头部标题栏 */
         .header {
+            padding: 1.2rem 2rem;
+            background: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
             display: flex;
             justify-content: space-between;
             align-items: center;
-            flex-wrap: wrap;
-            border-bottom: 2px solid rgba(0, 0, 0, 0.1);
-            padding-bottom: 1rem;
+            border-bottom: 1px solid #eaecef;
         }
 
         .header h1 {
-            font-size: 2.8rem;
-            color: #34495e;
-            margin: 0;
+            font-size: 1.5rem;
             font-weight: 700;
+            color: #1a1a1a;
         }
 
-        /* 动态日期和关怀语 */
         .info {
-            display: flex;
-            flex-direction: column;
+            font-size: 0.95rem;
+            color: #6b7280;
             text-align: right;
-            color: #888;
         }
 
         #current-date {
-            font-size: 1.1rem;
-            margin-bottom: 0.5rem;
             font-weight: 600;
         }
+
         #greeting {
-            font-size: 1rem;
-            font-style: italic;
+            color: #8b95a1;
         }
 
-        /* 日志编辑区 */
-        #log-editor {
-            width: 100%;
-            height: 400px;
-            padding: 1.5rem;
-            border: 1px solid #ddd;
-            border-radius: 10px;
-            font-size: 1.1rem;
-            line-height: 1.8;
-            resize: vertical;
-            box-sizing: border-box;
-            font-family: 'Courier New', monospace;
-            transition: all 0.3s ease;
-        }
-        #log-editor:focus {
-            outline: none;
-            border-color: #FF6B6B;
-            box-shadow: 0 0 8px rgba(255, 107, 107, 0.5);
-        }
-
-        /* 按钮区域 */
-        .actions {
+        /* 主内容区：左右分栏 */
+        .main-container {
             display: flex;
-            gap: 1.5rem;
-            justify-content: flex-end;
+            flex: 1;
+            overflow: hidden;
         }
-        
-        .save-dropdown {
-            position: relative;
-            display: inline-block;
+
+        /* 左侧栏 - 修改：统一按钮宽度 */
+        .sidebar {
+            width: 300px;
+            background: #ffffff;
+            border-right: 1px solid #eaecef;
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            overflow-y: auto;
         }
-        
-        .save-button-wrapper, .actions #new-btn {
-            display: inline-block;
-            cursor: pointer;
-            padding: 0.9rem 1.8rem;
-            font-size: 1rem;
+
+        /* 按钮统一宽度 */
+        .btn {
+            padding: 0.7rem 1rem;
+            font-size: 0.95rem;
             font-weight: 600;
-            border-radius: 8px;
-            color: #fff;
             border: none;
-            transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
-            background: linear-gradient(45deg, #FF6B6B, #FF8E53);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            color: white;
+            width: 100%; /* 👈 关键：按钮宽度100%，填满容器 */
+            text-align: center;
         }
 
-        .save-button-wrapper:hover, .actions #new-btn:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+        .btn-new {
+            background: #3498db;
         }
 
-        .actions #new-btn {
-            background: linear-gradient(45deg, #4ECDC4, #556270);
+        .btn-new:hover {
+            background: #2980b9;
+        }
+
+        .btn-save {
+            background: #2ecc71;
+        }
+
+        .btn-save:hover {
+            background: #27ae60;
+        }
+
+        /* 下拉菜单 */
+        .dropdown {
+            position: relative;
+            width: 100%; /* 👈 保证下拉容器也占满 */
         }
 
         .dropdown-content {
             display: none;
             position: absolute;
-            bottom: 100%;
+            top: 100%;
             left: 0;
-            background-color: #fff;
-            min-width: 180px;
-            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-            z-index: 1;
-            border-radius: 8px;
-            margin-bottom: 10px;
-            overflow: hidden;
-        }
-        
-        .dropdown-content button {
-            color: #555;
-            padding: 12px 18px;
-            text-decoration: none;
-            display: block;
-            background: none;
-            border: none;
             width: 100%;
-            text-align: left;
-            cursor: pointer;
-            font-size: 1rem;
-            transition: background-color 0.2s ease;
-        }
-        
-        .dropdown-content button:hover {
-            background-color: #f5f5f5;
+            background: white;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+            border-radius: 8px;
+            z-index: 10;
+            overflow: hidden;
+            margin-top: 6px;
         }
 
-        .dropdown-content button:active {
-            background-color: #eee;
-        }
-
-        /* 显示下拉菜单 */
         .dropdown-content.show {
             display: block;
         }
 
-        /* 响应式调整 */
+        .dropdown-content button {
+            width: 100%;
+            text-align: left;
+            padding: 0.8rem 1rem;
+            border: none;
+            background: none;
+            cursor: pointer;
+            font-size: 0.95rem;
+            color: #333;
+            transition: background 0.2s;
+        }
+
+        .dropdown-content button:hover {
+            background-color: #f5f7fa;
+        }
+
+        /* 右侧编辑区 */
+        .editor-area {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        #log-editor {
+            flex: 1;
+            padding: 2rem;
+            border: none;
+            outline: none;
+            resize: none;
+            font-family: 'JetBrains Mono', 'Courier New', monospace;
+            font-size: 1rem;
+            line-height: 1.8;
+            color: #2c3e50;
+            background: #fbfcfd;
+        }
+
+        #log-editor::placeholder {
+            color: #aaa;
+        }
+
+        /* 隐藏预览容器 */
+        #export-preview {
+            position: absolute;
+            left: -9999px;
+            top: -9999px;
+            width: 800px;
+            max-width: 800px;
+            background: white;
+            padding: 40px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            font-family: 'Inter', sans-serif;
+            font-size: 16px;
+            line-height: 1.8;
+            color: #2c3e50;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+
+        /* 响应式：小屏切换为上下布局 */
         @media (max-width: 768px) {
-            .container {
-                padding: 1.5rem;
-                gap: 1.5rem;
-            }
-            .header {
+            .main-container {
                 flex-direction: column;
-                align-items: flex-start;
-                gap: 0.5rem;
-                border-bottom: none;
-                padding-bottom: 0;
             }
-            .info {
-                text-align: left;
-            }
-            .actions {
-                flex-direction: column;
-                align-items: stretch;
-                gap: 1rem;
-            }
-            .save-dropdown {
+            .sidebar {
                 width: 100%;
-            }
-            .save-button-wrapper {
-                width: 100%;
-                text-align: center;
-            }
-            .dropdown-content {
-                bottom: auto;
-                top: 100%;
-                left: 0;
-                width: 100%;
-                margin-top: 10px;
+                border-right: none;
+                border-bottom: 1px solid #eaecef;
+                max-height: 300px;
             }
         }
     </style>
-    
+
+    <!-- 依赖库 -->
     <script src="https://unpkg.com/file-saver@2.0.5/dist/FileSaver.js"></script>
     <script src="https://unpkg.com/docx@7.1.0/build/index.js"></script>
-    
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 </head>
 <body>
 
-    <div class="container" id="printable-content">
-        <div class="header">
-            <h1>学习日志</h1>
-            <div class="info">
-                <span id="current-date"></span>
-                <span id="greeting">保持好奇，每日精进！</span>
-            </div>
-        </div>
-
-        <textarea id="log-editor" placeholder="在此记录你的学习内容..."></textarea>
-
-        <div class="actions">
-            <button id="new-btn">新建日志</button>
-            
-            <div class="save-dropdown">
-                <button class="save-button-wrapper" onclick="toggleDropdown(event)">保存日志 ▼</button>
-                <div id="save-options" class="dropdown-content">
-                    <button id="save-txt">保存为 TXT</button>
-                    <button id="save-pdf">保存为 PDF</button>
-                    <button id="save-docx">保存为 Word (DOCX)</button>
-                </div>
-            </div>
+    <!-- 顶部标题栏 -->
+    <div class="header">
+        <h1>学习日志</h1>
+        <div class="info">
+            <div id="current-date"></div>
+            <div id="greeting">保持好奇，每日精进！</div>
         </div>
     </div>
+
+    <!-- 主内容区 -->
+    <div class="main-container">
+        <!-- 左侧栏 -->
+        <div class="sidebar">
+            <!-- 所有按钮现在宽度一致 -->
+            <button id="new-btn" class="btn btn-new">➕ 新建日志</button>
+
+            <div class="dropdown">
+                <button class="btn btn-save" onclick="toggleDropdown(event)">💾 保存日志 ▼</button>
+                <div id="save-options" class="dropdown-content">
+                    <button id="save-txt">📄 保存为 TXT</button>
+                    <button id="save-pdf">📄 保存为 PDF</button>
+                    <button id="save-docx">📘 保存为 Word (DOCX)</button>
+                    <button id="save-png">🖼️ 导出为 PNG 图片</button>
+                </div>
+            </div>
+
+            <!-- 提示信息 -->
+            <div class="log-list" style="font-size: 0.9rem; color: #666;">
+                <p><i>📌 功能提示：</i></p>
+                <p>支持导出为多种格式，包括 PNG 图片，方便分享与归档。</p>
+            </div>
+        </div>
+
+        <!-- 右侧编辑区 -->
+        <div class="editor-area">
+            <textarea id="log-editor" placeholder="在此记录你的学习内容..."></textarea>
+        </div>
+    </div>
+
+    <!-- 用于导出的隐藏预览容器 -->
+    <div id="export-preview"></div>
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
@@ -262,22 +258,21 @@
             const saveTxtBtn = document.getElementById('save-txt');
             const savePdfBtn = document.getElementById('save-pdf');
             const saveDocxBtn = document.getElementById('save-docx');
+            const savePngBtn = document.getElementById('save-png');
             const currentDateEl = document.getElementById('current-date');
+            const exportPreview = document.getElementById('export-preview');
 
-            // 格式化日期和文件名
+            // 获取格式化日期
             function getFormattedDate() {
                 const now = new Date();
-                const options = { year: 'numeric', month: '2-digit', day: '2-digit' };
-                return now.toLocaleDateString('zh-CN', options).replace(/\//g, '-');
+                return now.toLocaleDateString('zh-CN').replace(/\//g, '-');
             }
 
-            function getFileContent() {
-                const now = new Date();
-                const fileContent = `${logEditor.value}\n\n---\n修改日期: ${now.toLocaleDateString('zh-CN', { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' })}`;
-                return fileContent;
+            function getFileName(prefix, ext) {
+                return `${prefix}_${getFormattedDate()}.${ext}`;
             }
 
-            // 初始化：显示当前日期
+            // 显示当前日期
             function updateDate() {
                 const now = new Date();
                 const options = { year: 'numeric', month: 'long', day: 'numeric', weekday: 'long' };
@@ -285,136 +280,121 @@
             }
             updateDate();
 
-            // 新建日志功能
+            // 新建日志
             newBtn.addEventListener('click', () => {
-                if (logEditor.value.trim() !== '' && confirm('确定要新建日志吗？当前内容将丢失。')) {
-                    logEditor.value = '';
-                }
-                if (logEditor.value.trim() === '') {
-                    logEditor.value = `## ${new Date().toLocaleDateString('zh-CN', { year: 'numeric', month: 'long', day: 'numeric' })} 学习日志\n\n`;
-                }
+                if (logEditor.value.trim() && !confirm('确定要新建日志吗？当前内容将丢失。')) return;
+                logEditor.value = `## ${new Date().toLocaleDateString('zh-CN')} 学习日志\n\n`;
             });
 
-            // TXT保存功能
+            // 初始填充
+            if (!logEditor.value.trim()) {
+                logEditor.value = `## ${new Date().toLocaleDateString('zh-CN')} 学习日志\n\n`;
+            }
+
+            // 获取带时间戳的内容
+            function getFileContent() {
+                const now = new Date();
+                return `${logEditor.value}\n\n---\n修改时间：${now.toLocaleString('zh-CN')}`;
+            }
+
+            // 保存为 TXT
             saveTxtBtn.addEventListener('click', () => {
-                if (logEditor.value.trim() === '') {
-                    alert('日志内容为空，无法保存！');
-                    return;
-                }
-                const fileName = `学习日志_${getFormattedDate()}.txt`;
+                if (!logEditor.value.trim()) return alert('日志内容为空！');
                 const blob = new Blob([getFileContent()], { type: 'text/plain;charset=utf-8' });
-                saveAs(blob, fileName);
-                alert('日志已保存为 TXT 格式！');
+                saveAs(blob, getFileName('学习日志', 'txt'));
+                alert('✅ 已保存为 TXT');
             });
-            
-            // PDF保存功能 (使用html2canvas+jsPDF，最稳妥的方案)
-            savePdfBtn.addEventListener('click', () => {
-                if (logEditor.value.trim() === '') {
-                    alert('日志内容为空，无法保存！');
-                    return;
-                }
-                
-                // 将日志内容渲染到一个隐藏的 div 中，然后截取成图片
-                const logContentHtml = document.createElement('div');
-                logContentHtml.style.padding = '20px';
-                logContentHtml.style.fontFamily = 'Helvetica, Arial, sans-serif';
-                logContentHtml.innerHTML = `
-                    <div style="font-size: 24px; font-weight: bold; margin-bottom: 20px;">学习日志</div>
-                    <pre style="white-space: pre-wrap; font-family: inherit; font-size: 16px;">${getFileContent()}</pre>
-                `;
-                document.body.appendChild(logContentHtml);
 
-                html2canvas(logContentHtml, { scale: 2 }).then(canvas => {
-                    const imgData = canvas.toDataURL('image/jpeg', 1.0);
+            // 保存为 PDF
+            savePdfBtn.addEventListener('click', async () => {
+                if (!logEditor.value.trim()) return alert('日志内容为空！');
+                exportPreview.innerHTML = `<h2>学习日志</h2><pre>${getFileContent()}</pre>`;
+                try {
+                    const canvas = await html2canvas(exportPreview, { scale: 2, backgroundColor: '#ffffff' });
+                    const imgData = canvas.toDataURL('image/jpeg', 0.95);
                     const { jsPDF } = window.jspdf;
                     const pdf = new jsPDF('p', 'mm', 'a4');
-                    
-                    const imgWidth = 210; // A4 纸宽度
-                    const pageHeight = 297; // A4 纸高度
-                    const imgHeight = canvas.height * imgWidth / canvas.width;
-                    let heightLeft = imgHeight;
-                    let position = 0;
-
+                    const imgWidth = 210;
+                    const imgHeight = (canvas.height * imgWidth) / canvas.width;
+                    let heightLeft = imgHeight, position = 0;
                     pdf.addImage(imgData, 'JPEG', 0, position, imgWidth, imgHeight);
-                    heightLeft -= pageHeight;
-
-                    while (heightLeft > 0) {
+                    while ((heightLeft -= 297) > 0) {
                         position = heightLeft - imgHeight;
                         pdf.addPage();
                         pdf.addImage(imgData, 'JPEG', 0, position, imgWidth, imgHeight);
-                        heightLeft -= pageHeight;
                     }
-
-                    const fileName = `学习日志_${getFormattedDate()}.pdf`;
-                    pdf.save(fileName);
-                    
-                    logContentHtml.remove();
-                    alert('日志已保存为 PDF 格式！');
-                }).catch(e => {
-                    console.error("PDF生成失败:", e);
-                    alert('PDF生成失败！请检查控制台错误信息。');
-                });
-            });
-            
-            // DOCX保存功能 (已修复)
-            saveDocxBtn.addEventListener('click', async () => {
-                if (logEditor.value.trim() === '') {
-                    alert('日志内容为空，无法保存！');
-                    return;
+                    pdf.save(getFileName('学习日志', 'pdf'));
+                    alert('✅ 已保存为 PDF');
+                } catch (e) {
+                    console.error('PDF 生成失败:', e);
+                    alert('❌ PDF 生成失败');
                 }
-                
-                const { Document, Paragraph, TextRun, Packer } = docx;
+            });
 
-                const fileContent = getFileContent();
-                const paragraphs = fileContent.split('\n').map(line => {
-                    return new Paragraph({
-                        children: [
-                            new TextRun(line),
-                        ]
-                    });
-                });
-                
+            // 保存为 DOCX
+            saveDocxBtn.addEventListener('click', async () => {
+                if (!logEditor.value.trim()) return alert('日志内容为空！');
+                const { Document, Paragraph, TextRun, Packer } = docx;
+                const content = getFileContent();
+                const paragraphs = content.split('\n').map(line => new Paragraph({
+                    children: [new TextRun(line)],
+                    spacing: { after: 100 }
+                }));
                 const doc = new Document({
                     sections: [{
                         properties: {},
-                        children: [
-                            new Paragraph({
-                                children: [new TextRun({ text: "学习日志", bold: true, size: 36 })],
-                            }),
-                            ...paragraphs
-                        ]
+                        children: [new Paragraph({ children: [new TextRun({ text: "学习日志", bold: true, size: 28 })], spacing: { after: 200 } }), ...paragraphs]
                     }]
                 });
-
-                const blob = await Packer.toBlob(doc);
-                const fileName = `学习日志_${getFormattedDate()}.docx`;
-                saveAs(blob, fileName);
-                alert('日志已保存为 Word (DOCX) 格式！');
+                try {
+                    const blob = await Packer.toBlob(doc);
+                    saveAs(blob, getFileName('学习日志', 'docx'));
+                    alert('✅ 已保存为 DOCX');
+                } catch (e) {
+                    console.error('DOCX 生成失败:', e);
+                    alert('❌ DOCX 生成失败');
+                }
             });
-            
-            // 页面加载时自动在日志区添加日期
-            if (logEditor.value.trim() === '') {
-                logEditor.value = `## ${new Date().toLocaleDateString('zh-CN', { year: 'numeric', month: 'long', day: 'numeric' })} 学习日志\n\n`;
-            }
 
+            // 导出为 PNG
+            savePngBtn.addEventListener('click', async () => {
+                if (!logEditor.value.trim()) return alert('日志内容为空！');
+                exportPreview.innerHTML = `<h2 style="color:#1a1a1a;margin-bottom:20px;">学习日志</h2><pre style="font:16px 'Inter',sans-serif;line-height:1.8;white-space:pre-wrap;">${getFileContent()}</pre>`;
+                try {
+                    const canvas = await html2canvas(exportPreview, { scale: 3, backgroundColor: '#ffffff' });
+                    canvas.toBlob(blob => {
+                        const url = URL.createObjectURL(blob);
+                        const a = document.createElement('a');
+                        a.href = url;
+                        a.download = getFileName('学习日志', 'png');
+                        a.click();
+                        URL.revokeObjectURL(url);
+                        alert('✅ 已导出为 PNG 图片');
+                    }, 'image/png');
+                } catch (e) {
+                    console.error('PNG 生成失败:', e);
+                    alert('❌ PNG 生成失败');
+                }
+            });
         });
 
-        // 控制保存选项的下拉菜单
+        // 下拉菜单控制
         function toggleDropdown(event) {
             event.stopPropagation();
             document.getElementById("save-options").classList.toggle("show");
         }
+
         window.onclick = function(event) {
-            if (!event.target.matches('.save-button-wrapper')) {
-                const dropdowns = document.getElementsByClassName("dropdown-content");
-                for (let i = 0; i < dropdowns.length; i++) {
-                    const openDropdown = dropdowns[i];
-                    if (openDropdown.classList.contains('show')) {
-                        openDropdown.classList.remove('show');
-                    }
+            const dropdowns = document.getElementsByClassName("dropdown-content");
+            for (let i = 0; i < dropdowns.length; i++) {
+                const openDropdown = dropdowns[i];
+                if (openDropdown.classList.contains('show') && 
+                    !event.target.matches('.btn') && 
+                    !openDropdown.contains(event.target)) {
+                    openDropdown.classList.remove('show');
                 }
             }
-        }
+        };
     </script>
 </body>
 </html>
